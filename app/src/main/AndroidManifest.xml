@@ -17,6 +17,7 @@
         android:theme="@style/Theme.JetWatch"
         tools:targetApi="31">
         <service android:name=".service.StopwatchService"
+            android:foregroundServiceType="shortService"
             android:enabled="false"
             android:exported="false" />
         <activity
