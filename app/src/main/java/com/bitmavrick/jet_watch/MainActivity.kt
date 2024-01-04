@@ -13,15 +13,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
 import com.bitmavrick.jet_watch.service.StopwatchService
-import com.bitmavrick.jet_watch.service.StopwatchState
 import com.bitmavrick.jet_watch.ui.theme.JetWatchTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -50,13 +46,14 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    @OptIn(ExperimentalAnimationApi::class)
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             JetWatchTheme {
                 if(isBound){
-                    TODO("Do the screen thing!")
+                    MainScreen(stopwatchService = stopwatchService)
                 }
             }
         }
