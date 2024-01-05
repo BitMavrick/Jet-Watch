@@ -10,9 +10,13 @@ import android.os.Build
 import android.os.IBinder
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.app.NotificationCompat
+import com.bitmavrick.jet_watch.util.Constants.ACTION_SERVICE_CANCEL
+import com.bitmavrick.jet_watch.util.Constants.ACTION_SERVICE_START
+import com.bitmavrick.jet_watch.util.Constants.ACTION_SERVICE_STOP
 import com.bitmavrick.jet_watch.util.Constants.NOTIFICATION_CHANNEL_ID
 import com.bitmavrick.jet_watch.util.Constants.NOTIFICATION_CHANNEL_NAME
 import com.bitmavrick.jet_watch.util.Constants.NOTIFICATION_ID
+import com.bitmavrick.jet_watch.util.Constants.STOPWATCH_STATE
 import com.bitmavrick.jet_watch.util.formatTime
 import com.bitmavrick.jet_watch.util.pad
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,10 +51,55 @@ class StopwatchService : Service(){
     var currentState = mutableStateOf(StopwatchState.Idle)
         private set
 
+    override fun onBind(p0: Intent?) = binder
 
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
-    override fun onBind(intent: Intent?): IBinder? {
-        TODO("Not yet implemented")
+        when (intent?.getStringExtra(STOPWATCH_STATE)){
+            StopwatchState.Started.name -> {
+                setStopButton()
+                startForegroundService()
+                startStopWatch{ hours, minutes, seconds ->
+                    updateNotification(hours = hours, minutes = minutes, seconds = seconds)
+                }
+            }
+
+            StopwatchState.Stopped.name -> {
+                stopStopwatch()
+                setResumeButton()
+            }
+
+            StopwatchState.Canceled.name -> {
+                stopStopwatch()
+                cancelStopwatch()
+                stopForegroundService()
+            }
+        }
+
+        intent?.action.let {
+            when(it){
+                ACTION_SERVICE_START -> {
+                    setStopButton()
+                    startForegroundService()
+                    startStopWatch{ hours, minutes, seconds ->
+                        updateNotification(hours = hours, minutes = minutes, seconds = seconds)
+                    }
+                }
+
+                ACTION_SERVICE_STOP -> {
+                    stopStopwatch()
+                    setResumeButton()
+                }
+
+                ACTION_SERVICE_CANCEL -> {
+                    stopStopwatch()
+                    cancelStopwatch()
+                    stopForegroundService()
+                }
+            }
+        }
+
+        return super.onStartCommand(intent, flags, startId)
     }
 
     private fun startStopWatch(onTick: (h: String, m: String, s: String) -> Unit) {

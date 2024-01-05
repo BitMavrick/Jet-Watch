@@ -13,7 +13,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
             isBound = true
         }
 
-        override fun onServiceDisconnected(componentName: ComponentName) {
+        override fun onServiceDisconnected(arg0: ComponentName) {
             isBound = false
         }
     }
@@ -46,14 +46,13 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    @OptIn(ExperimentalAnimationApi::class)
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             JetWatchTheme {
                 if(isBound){
-                    MainScreen(stopwatchService = stopwatchService)
+                    Text(text = "Success!!")
                 }
             }
         }
