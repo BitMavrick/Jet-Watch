@@ -7,7 +7,6 @@ import android.app.Service
 import android.content.Intent
 import android.os.Binder
 import android.os.Build
-import android.os.IBinder
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.app.NotificationCompat
 import com.bitmavrick.jet_watch.util.Constants.ACTION_SERVICE_CANCEL
@@ -21,6 +20,7 @@ import com.bitmavrick.jet_watch.util.formatTime
 import com.bitmavrick.jet_watch.util.pad
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Timer
+import javax.inject.Inject
 import kotlin.concurrent.fixedRateTimer
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
@@ -29,8 +29,10 @@ import kotlin.time.Duration.Companion.seconds
 @AndroidEntryPoint
 class StopwatchService : Service(){
 
+    @Inject
     lateinit var notificationManager: NotificationManager
 
+    @Inject
     lateinit var notificationBuilder: NotificationCompat.Builder
 
     private val binder = StopwatchBinder()
@@ -54,7 +56,6 @@ class StopwatchService : Service(){
     override fun onBind(p0: Intent?) = binder
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-
         when (intent?.getStringExtra(STOPWATCH_STATE)){
             StopwatchState.Started.name -> {
                 setStopButton()
