@@ -19,6 +19,7 @@ import androidx.compose.ui.platform.LocalContext
 import com.bitmavrick.jet_watch.service.ServiceHelper
 import com.bitmavrick.jet_watch.service.StopwatchService
 import com.bitmavrick.jet_watch.service.StopwatchState
+import com.bitmavrick.jet_watch.util.Constants.ACTION_SERVICE_CANCEL
 import com.bitmavrick.jet_watch.util.Constants.ACTION_SERVICE_START
 import com.bitmavrick.jet_watch.util.Constants.ACTION_SERVICE_STOP
 
@@ -68,7 +69,13 @@ fun MainScreen(stopwatchService: StopwatchService){
             }
 
             OutlinedButton(
-                onClick = { /*TODO*/ }
+                onClick = {
+                    ServiceHelper.triggerForegroundService(
+                        context = context,
+                        action = ACTION_SERVICE_CANCEL
+                    )
+                },
+                enabled = seconds != "00" && currentState != StopwatchState.Started
             ) {
                 Text(text = "Reset")
             }
