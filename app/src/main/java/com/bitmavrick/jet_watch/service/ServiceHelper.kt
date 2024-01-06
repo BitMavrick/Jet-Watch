@@ -3,6 +3,7 @@ package com.bitmavrick.jet_watch.service
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import androidx.compose.animation.ExperimentalAnimationApi
 import com.bitmavrick.jet_watch.MainActivity
 import com.bitmavrick.jet_watch.util.Constants.CANCEL_REQUEST_CODE
 import com.bitmavrick.jet_watch.util.Constants.CLICK_REQUEST_CODE
@@ -10,6 +11,7 @@ import com.bitmavrick.jet_watch.util.Constants.RESUME_REQUEST_CODE
 import com.bitmavrick.jet_watch.util.Constants.STOPWATCH_STATE
 import com.bitmavrick.jet_watch.util.Constants.STOP_REQUEST_CODE
 
+@ExperimentalAnimationApi
 object ServiceHelper {
 
     private const val flag = PendingIntent.FLAG_IMMUTABLE

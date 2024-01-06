@@ -13,6 +13,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -21,10 +22,12 @@ import com.bitmavrick.jet_watch.service.StopwatchService
 import com.bitmavrick.jet_watch.ui.theme.JetWatchTheme
 import dagger.hilt.android.AndroidEntryPoint
 
+@ExperimentalAnimationApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private var isBound by mutableStateOf(false)
+
     private lateinit var stopwatchService: StopwatchService
 
     private val connection = object : ServiceConnection {
@@ -41,7 +44,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onStart() {
         super.onStart()
-        Intent( this, StopwatchService::class.java ).also { intent ->
+        Intent(this, StopwatchService::class.java).also { intent ->
             bindService(intent, connection, Context.BIND_AUTO_CREATE)
         }
     }
@@ -52,7 +55,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             JetWatchTheme {
                 if(isBound){
-                    Text(text = "Success!!")
+                    Text(text = "Jet-watch Success!!")
                 }
             }
         }

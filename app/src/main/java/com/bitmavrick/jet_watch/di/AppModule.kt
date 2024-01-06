@@ -2,6 +2,7 @@ package com.bitmavrick.jet_watch.di
 
 import android.app.NotificationManager
 import android.content.Context
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.core.app.NotificationCompat
 import com.bitmavrick.jet_watch.R
 import com.bitmavrick.jet_watch.service.ServiceHelper
@@ -13,6 +14,7 @@ import dagger.hilt.android.components.ServiceComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ServiceScoped
 
+@ExperimentalAnimationApi
 @Module
 @InstallIn(ServiceComponent::class)
 object AppModule {
@@ -23,12 +25,12 @@ object AppModule {
         @ApplicationContext context: Context
     ): NotificationCompat.Builder {
         return NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
-            .setContentTitle("Jet-Watch")
+            .setContentTitle("Stopwatch")
             .setContentText("00:00:00")
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setOngoing(true)
             .addAction(0, "Stop", ServiceHelper.stopPendingIntent(context))
-            .addAction(0, "Reset", ServiceHelper.cancelPendingIntent(context))
+            .addAction(0, "Cancel", ServiceHelper.cancelPendingIntent(context))
             .setContentIntent(ServiceHelper.clickPendingIntent(context))
     }
 
