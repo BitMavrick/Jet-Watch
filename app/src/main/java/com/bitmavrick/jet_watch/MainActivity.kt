@@ -14,6 +14,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -55,6 +56,8 @@ class MainActivity : ComponentActivity() {
             JetWatchTheme {
                 if(isBound){
                     MainScreen(stopwatchService = stopwatchService)
+                }else{
+                    Text(text = "Unbound service in Jet-watch!")
                 }
             }
         }

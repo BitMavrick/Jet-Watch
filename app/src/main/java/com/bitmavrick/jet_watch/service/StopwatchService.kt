@@ -48,7 +48,10 @@ class StopwatchService : Service() {
     var currentState = mutableStateOf(StopwatchState.Idle)
         private set
 
-    override fun onBind(p0: Intent?) = binder
+    //override fun onBind(p0: Intent?) = binder
+    // override fun onBind(p0: Intent?) = null
+
+    override fun onBind(intent: Intent?) = binder
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.getStringExtra(STOPWATCH_STATE)) {
