@@ -1,4 +1,4 @@
-package com.bitmavrick.jet_watch
+package com.bitmavrick.jet_watch.activity
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
