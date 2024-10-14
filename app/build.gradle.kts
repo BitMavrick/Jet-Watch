@@ -54,6 +54,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
+    // * Custom Implementation
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
 }
