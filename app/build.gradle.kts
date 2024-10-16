@@ -56,6 +56,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
 
     // * Custom Implementation
+    implementation(libs.accompanist.permissions)
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
 }
