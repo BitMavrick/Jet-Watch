@@ -21,8 +21,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.bitmavrick.jet_watch.ui.home.HomeScreen
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
@@ -52,7 +52,7 @@ fun PermissionScreen(){
     ) {
         when(val status = notificationPermissionState.status){
             is PermissionStatus.Granted -> {
-                Text("Permission is Granted!")
+                HomeScreen()
             }
 
             is PermissionStatus.Denied -> {
@@ -82,12 +82,22 @@ fun PermissionScreen(){
                         }
                     }
                 }else{
+                    /*
                     Button(onClick = {
                         notificationPermissionState.launchPermissionRequest()
                         hasRequestedPermission = true
                     }) {
                         Text("Request Notification Permission")
                     }
+
+                     */
+
+                    MainPermissionScreen(
+                        onClickGranted = {
+                            notificationPermissionState.launchPermissionRequest()
+                            hasRequestedPermission = true
+                        }
+                    )
                 }
             }
         }
