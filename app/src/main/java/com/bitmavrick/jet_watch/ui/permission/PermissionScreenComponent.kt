@@ -2,18 +2,26 @@ package com.bitmavrick.jet_watch.ui.permission
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.bitmavrick.jet_watch.components.JetClockIcon
 
 
 @Composable
@@ -21,42 +29,52 @@ fun MainPermissionScreen(
     onClickGranted : () -> Unit,
     onClickAppSettings : () -> Unit = {}
 ){
-    Column(
-        modifier = Modifier.fillMaxSize().padding(16.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "Jet Watch need notification permission \n to work properly",
-            textAlign = TextAlign.Center
-        )
+    Scaffold (
+        topBar = {
+            TopBar()
+        },
+        content = { innerPadding ->
+            Body(innerPadding)
+        },
+        floatingActionButton = {
+            ExtendedFloatingActionButton(
+                onClick = {},
+                icon = {
+                    Icon(
+                        imageVector = Icons.Default.Notifications,
+                        contentDescription = ""
+                    )
+                },
+                text = { Text("Grant Access") }
+            )
+        }
+    )
+}
 
-        Spacer(Modifier.height(20.dp))
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun TopBar(){
+    LargeTopAppBar(
+        title = { Text("Welcome") }
+    )
+}
 
-        Button(
-            onClick = {
-                onClickGranted()
-            }
+@Composable
+private fun Body(
+    padding: PaddingValues,
+){
+    Column (
+        Modifier.fillMaxSize().padding(padding).padding(16.dp)
+    ){
+        Row(
+            modifier = Modifier.height(200.dp).fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
         ) {
-            Text("Grand Access")
+            JetClockIcon(
+                contentDescription = null
+            )
         }
 
-        Spacer(Modifier.height(20.dp))
-
-        Text(
-            text = "If you can't see the permission prompt, then open the settings and give permission manually*",
-            textAlign = TextAlign.Center
-        )
-
-        Spacer(Modifier.height(20.dp))
-
-        Button(
-            onClick = {
-                onClickAppSettings()
-            }
-        ) {
-            Text("Open App Settings")
-        }
     }
 }
 
