@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.CheckCircleOutline
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
@@ -27,6 +27,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.bitmavrick.jet_watch.components.JetClockIcon
 
 @Composable
@@ -55,11 +56,11 @@ fun MainPermissionScreen(
                 },
                 icon = {
                     Icon(
-                        imageVector = Icons.Default.Notifications,
+                        imageVector = Icons.Default.CheckCircleOutline,
                         contentDescription = ""
                     )
                 },
-                text = { Text("Grant Access") }
+                text = { Text("Allow Access") }
             )
         }
     )
@@ -69,7 +70,12 @@ fun MainPermissionScreen(
 @Composable
 private fun TopBar(){
     LargeTopAppBar(
-        title = { Text("Welcome") }
+        title = {
+            Text(
+                text = "Welcome",
+                fontSize = 35.sp
+            )
+        }
     )
 }
 
@@ -81,7 +87,14 @@ private fun Body(
     onClickAppSettings: () -> Unit
 ){
     val annotatedText = buildAnnotatedString {
-        append("Grant permission manually from ")
+
+        withStyle(
+            style = SpanStyle(
+                color = MaterialTheme.colorScheme.onBackground
+            )
+        ) {
+            append("Grant permission manually from ")
+        }
 
         withStyle(
             style = SpanStyle(
@@ -109,8 +122,6 @@ private fun Body(
 
         item{
             Spacer(Modifier.height(16.dp))
-
-
 
             if(errorText != null){
                 Icon(
