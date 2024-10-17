@@ -10,8 +10,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -27,13 +25,17 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
 
-
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun PermissionScreen(){
     val context = LocalContext.current
     val notificationPermissionState = rememberPermissionState(permission = Manifest.permission.POST_NOTIFICATIONS)
+    val permissionString = "Jet Watch needs to allow notification permission to working properly, even in the background."
+    val errorPermissionString = "You may not be able to use the app without this grant this permission."
+    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+        data = Uri.fromParts("package", context.packageName, null)
+    }
 
     // * Tracks the permission
     var hasRequestedPermission by rememberSaveable { mutableStateOf(false) }
@@ -46,7 +48,9 @@ fun PermissionScreen(){
     }
 
     Column(
-        modifier = Modifier.fillMaxSize().padding(16.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -58,44 +62,40 @@ fun PermissionScreen(){
             is PermissionStatus.Denied -> {
                 if (permissionRequestCompleted){
                     if (status.shouldShowRationale){
-                        Text("Notification permission is required to use this feature")
-                        Button(
-                            onClick = {
+                        MainPermissionScreen(
+                            primaryText = permissionString,
+                            errorText = errorPermissionString,
+                            onClickGranted = {
                                 notificationPermissionState.launchPermissionRequest()
                                 hasRequestedPermission = true
-                            }
-
-                        ) {
-                            Text("Request Notification Permission")
-                        }
-                    }else{
-                        Text("Notification Permission is denied completely. Please enable it from the settings menu")
-                        Button(
-                            onClick = {
-                                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                                    data = Uri.fromParts("package", context.packageName, null)
-                                }
+                            },
+                            onClickAppSettings = {
                                 context.startActivity(intent)
                             }
-                        ){
-                            Text("Open App Settings")
-                        }
+                        )
+                    }else{
+                        MainPermissionScreen(
+                            primaryText = null,
+                            errorText = "Notification Permission is denied completely. Please enable it from the settings menu",
+                            onClickGranted = {
+                                notificationPermissionState.launchPermissionRequest()
+                                hasRequestedPermission = true
+                            },
+                            onClickAppSettings = {
+                                context.startActivity(intent)
+                            }
+                        )
                     }
                 }else{
-                    /*
-                    Button(onClick = {
-                        notificationPermissionState.launchPermissionRequest()
-                        hasRequestedPermission = true
-                    }) {
-                        Text("Request Notification Permission")
-                    }
-
-                     */
-
                     MainPermissionScreen(
+                        primaryText = permissionString,
+                        errorText = null,
                         onClickGranted = {
                             notificationPermissionState.launchPermissionRequest()
                             hasRequestedPermission = true
+                        },
+                        onClickAppSettings = {
+                            context.startActivity(intent)
                         }
                     )
                 }
