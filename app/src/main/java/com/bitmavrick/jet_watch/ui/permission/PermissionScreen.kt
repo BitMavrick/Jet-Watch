@@ -35,7 +35,7 @@ fun PermissionScreen(
     val context = LocalContext.current
     val notificationPermissionState = rememberPermissionState(permission = Manifest.permission.POST_NOTIFICATIONS)
     val permissionString = "Jet Watch needs to allow notification permission to working properly, even in the background."
-    val errorPermissionString = "You may not be able to use the app without this grant this permission."
+    val errorPermissionString = "You may not be able to use the app without granting this permission."
     val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
         data = Uri.fromParts("package", context.packageName, null)
     }
