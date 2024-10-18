@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.text.ClickableText
+import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircleOutline
 import androidx.compose.material.icons.outlined.Info
@@ -21,9 +21,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withLink
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -86,26 +88,6 @@ private fun Body(
     errorText: String?,
     onClickAppSettings: () -> Unit
 ){
-    val annotatedText = buildAnnotatedString {
-
-        withStyle(
-            style = SpanStyle(
-                color = MaterialTheme.colorScheme.onBackground
-            )
-        ) {
-            append("Grant permission manually from ")
-        }
-
-        withStyle(
-            style = SpanStyle(
-                color = MaterialTheme.colorScheme.primary,
-                textDecoration = TextDecoration.Underline,
-            )
-        ) {
-            append("App settings")
-        }
-    }
-
     LazyColumn (
         modifier = Modifier.padding(padding).padding(16.dp)
     ){
@@ -155,20 +137,47 @@ private fun Body(
 
             Spacer(Modifier.height(22.dp))
 
-            ClickableText(
-                text = annotatedText,
-                onClick = { offset ->
-                    val startIndex = annotatedText.indexOf("App settings")
-                    val endIndex = startIndex + "App settings".length
-                    if (offset in startIndex until endIndex) {
-                        onClickAppSettings()
-                    }
-                },
+            SettingsText(
+                onClickAppSettings = onClickAppSettings
             )
 
             Spacer(Modifier.height(16.dp))
         }
     }
+}
+
+@Composable
+private fun SettingsText(
+    onClickAppSettings: () -> Unit
+){
+    BasicText(
+        text = buildAnnotatedString {
+            withStyle(
+                style = SpanStyle(
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+            ) {
+                append("Grant permission manually from ")
+            }
+
+            val link = LinkAnnotation.Clickable(
+                tag = "JetpackComposeLink",
+                linkInteractionListener = {
+                    onClickAppSettings()
+                }
+            )
+            withLink(link) {
+                withStyle(
+                    style = SpanStyle(
+                        color = MaterialTheme.colorScheme.primary,
+                        textDecoration = TextDecoration.Underline,
+                    )
+                ) {
+                    append("App Settings")
+                }
+            }
+        }
+    )
 }
 
 @Preview(showBackground = true)
