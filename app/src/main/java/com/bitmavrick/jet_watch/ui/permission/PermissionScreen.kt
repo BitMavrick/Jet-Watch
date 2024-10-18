@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -28,7 +29,9 @@ import com.google.accompanist.permissions.rememberPermissionState
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun PermissionScreen(){
+fun PermissionScreen(
+    windowSize: WindowSizeClass
+){
     val context = LocalContext.current
     val notificationPermissionState = rememberPermissionState(permission = Manifest.permission.POST_NOTIFICATIONS)
     val permissionString = "Jet Watch needs to allow notification permission to working properly, even in the background."
@@ -63,6 +66,7 @@ fun PermissionScreen(){
                 if (permissionRequestCompleted){
                     if (status.shouldShowRationale){
                         MainPermissionScreen(
+                            windowSize = windowSize,
                             primaryText = permissionString,
                             errorText = errorPermissionString,
                             onClickGranted = {
@@ -75,6 +79,7 @@ fun PermissionScreen(){
                         )
                     }else{
                         MainPermissionScreen(
+                            windowSize = windowSize,
                             primaryText = null,
                             errorText = "Notification Permission is denied completely. Please enable it from the settings menu",
                             onClickGranted = {
@@ -88,6 +93,7 @@ fun PermissionScreen(){
                     }
                 }else{
                     MainPermissionScreen(
+                        windowSize = windowSize,
                         primaryText = permissionString,
                         errorText = null,
                         onClickGranted = {

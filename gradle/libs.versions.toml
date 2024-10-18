@@ -23,6 +23,7 @@ hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", ve
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "uiTooling" }
 accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompanist" }
 androidx-material-icon-extended = { group = "androidx.compose.material", name = "material-icons-extended-android" }
+androidx-compose-window = { module = "androidx.compose.material3:material3-window-size-class", name = "compose-window" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

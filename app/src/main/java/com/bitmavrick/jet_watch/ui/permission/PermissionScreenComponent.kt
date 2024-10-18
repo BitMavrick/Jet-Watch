@@ -19,6 +19,9 @@ import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.LinkAnnotation
@@ -28,12 +31,15 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bitmavrick.jet_watch.components.JetClockIcon
+import com.bitmavrick.jet_watch.ui.theme.JetWatchTheme
 
 @Composable
 fun MainPermissionScreen(
+    windowSize: WindowSizeClass,
     primaryText: String?,
     errorText: String?,
     onClickGranted : () -> Unit,
@@ -45,6 +51,7 @@ fun MainPermissionScreen(
         },
         content = { innerPadding ->
             Body(
+                windowSize = windowSize,
                 padding = innerPadding,
                 normalText = primaryText,
                 errorText = errorText,
@@ -83,6 +90,7 @@ private fun TopBar(){
 
 @Composable
 private fun Body(
+    windowSize: WindowSizeClass,
     padding: PaddingValues,
     normalText: String?,
     errorText: String?,
@@ -91,14 +99,16 @@ private fun Body(
     LazyColumn (
         modifier = Modifier.padding(padding).padding(16.dp)
     ){
-        item{
-            Row(
-                modifier = Modifier.height(250.dp).fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                JetClockIcon(
-                    contentDescription = null
-                )
+        if( windowSize.heightSizeClass != WindowHeightSizeClass.Compact ){
+            item{
+                Row(
+                    modifier = Modifier.height(250.dp).fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    JetClockIcon(
+                        contentDescription = null
+                    )
+                }
             }
         }
 
@@ -180,12 +190,46 @@ private fun SettingsText(
     )
 }
 
+
+
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Preview(showBackground = true)
 @Composable
 fun MainPermissionScreenPreview(){
-    MainPermissionScreen(
-        primaryText = "Jet Watch needs to allow notification permission to working properly, even in the background.",
-        errorText = null,
-        onClickGranted = {}
-    )
+    JetWatchTheme {
+        MainPermissionScreen(
+            windowSize = WindowSizeClass.calculateFromSize(
+                size = DpSize(
+                    width = 411.dp,
+                    height = 850.dp
+                )
+            ),
+            primaryText = "Jet Watch needs to allow notification permission to working properly, even in the background.",
+            errorText = null,
+            onClickGranted = {}
+        )
+    }
+}
+
+
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+@Preview(
+    showBackground = true,
+    device = "spec:width=411dp,height=850dp,dpi=420,isRound=false,chinSize=0dp,orientation=landscape"
+)
+@Composable
+fun MainPermissionScreenLandscapePreview() {
+    JetWatchTheme {
+        MainPermissionScreen(
+            windowSize = WindowSizeClass.calculateFromSize(
+                size = DpSize(
+                    width = 850.dp,
+                    height = 411.dp
+                )
+            ),
+            primaryText = "Jet Watch needs to allow notification permission to working properly, even in the background.",
+            errorText = null,
+            onClickGranted = {}
+        )
+    }
 }
