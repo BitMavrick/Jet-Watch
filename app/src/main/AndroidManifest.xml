@@ -16,6 +16,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.JetWatch"
         tools:targetApi="31">
+        <service android:name=".service.JetWatchForegroundService"
+            android:foregroundServiceType="shortService"
+            android:enabled="true"
+            android:exported="false" />
         <activity
             android:name=".activity.MainActivity"
             android:exported="true"
