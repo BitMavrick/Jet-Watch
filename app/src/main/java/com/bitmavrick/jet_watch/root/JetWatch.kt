@@ -1,9 +1,12 @@
 package com.bitmavrick.jet_watch.root
 
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import com.bitmavrick.jet_watch.ui.home.HomeScreen
 
 @Composable
-fun JetWatch() {
-    HomeScreen()
+fun JetWatch(
+    isBound: Boolean
+) {
+    // HomeScreen()
+    Text("Bound Status $isBound")
 }

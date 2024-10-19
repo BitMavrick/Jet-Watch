@@ -2,11 +2,19 @@ package com.bitmavrick.jet_watch.service
 
 import android.app.Service
 import android.content.Intent
-import android.os.IBinder
+import android.os.Binder
 
 class JetWatchForegroundService : Service(){
 
-    override fun onBind(intent: Intent?): IBinder? {
-        TODO("Not yet implemented")
+    private val binder = StopwatchBinder()
+
+
+    override fun onBind(intent: Intent?) = binder
+
+    inner class StopwatchBinder : Binder(){
+
+        fun getService() : JetWatchForegroundService {
+            return this@JetWatchForegroundService
+        }
     }
 }
