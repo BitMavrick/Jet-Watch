@@ -16,7 +16,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.ui.Modifier
-import com.bitmavrick.jet_watch.ui.home.HomeScreen
+import com.bitmavrick.jet_watch.root.JetWatch
 import com.bitmavrick.jet_watch.ui.permission.PermissionHandler
 import com.bitmavrick.jet_watch.ui.theme.JetWatchTheme
 
@@ -38,7 +38,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     if(checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED){
-                        HomeScreen()
+                        JetWatch()
                     }else{
                         PermissionHandler( windowSize )
                     }

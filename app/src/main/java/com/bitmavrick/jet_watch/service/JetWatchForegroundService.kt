@@ -9,5 +9,4 @@ class JetWatchForegroundService : Service(){
     override fun onBind(intent: Intent?): IBinder? {
         TODO("Not yet implemented")
     }
-
 }
