@@ -1,6 +1,7 @@
 package com.bitmavrick.jet_watch.root
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import com.bitmavrick.jet_watch.service.JetWatchForegroundService
 import com.bitmavrick.jet_watch.ui.home.HomeScreen
 
@@ -8,5 +9,13 @@ import com.bitmavrick.jet_watch.ui.home.HomeScreen
 fun JetWatch(
     stopwatchService : JetWatchForegroundService
 ) {
-    HomeScreen( stopwatchService = stopwatchService )
+    val hours by stopwatchService.hours
+    val minutes by stopwatchService.minutes
+    val seconds by stopwatchService.seconds
+
+    HomeScreen(
+        hours = hours,
+        minutes = minutes,
+        seconds = seconds
+    )
 }

@@ -21,8 +21,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.bitmavrick.jet_watch.root.JetWatch
 import com.bitmavrick.jet_watch.service.JetWatchForegroundService
-import com.bitmavrick.jet_watch.ui.home.HomeScreen
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
@@ -61,7 +61,7 @@ fun PermissionHandler(
     ) {
         when(val status = notificationPermissionState.status){
             is PermissionStatus.Granted -> {
-                HomeScreen(stopwatchService)
+                JetWatch(stopwatchService)
             }
 
             is PermissionStatus.Denied -> {
