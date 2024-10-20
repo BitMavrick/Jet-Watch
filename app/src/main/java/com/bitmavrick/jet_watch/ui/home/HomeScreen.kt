@@ -2,20 +2,15 @@ package com.bitmavrick.jet_watch.ui.home
 
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
+import com.bitmavrick.jet_watch.service.JetWatchForegroundService
 
 @Composable
-fun HomeScreen(){
+fun HomeScreen(
+    stopwatchService : JetWatchForegroundService
+){
     Scaffold(
         content = { innerPadding ->
             HomeContent(innerPadding)
         }
     )
-}
-
-
-@Preview(apiLevel = 33, showSystemUi = true)
-@Composable
-fun HomeScreenPreview(){
-    HomeScreen()
 }

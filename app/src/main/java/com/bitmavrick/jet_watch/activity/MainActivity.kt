@@ -13,20 +13,27 @@ import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.bitmavrick.jet_watch.root.JetWatch
 import com.bitmavrick.jet_watch.service.JetWatchForegroundService
 import com.bitmavrick.jet_watch.ui.permission.PermissionHandler
 import com.bitmavrick.jet_watch.ui.theme.JetWatchTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private var isBound by mutableStateOf(false)
@@ -34,15 +41,15 @@ class MainActivity : ComponentActivity() {
 
     private val connection = object : ServiceConnection {
         override fun onServiceConnected(
-            name: ComponentName?,
-            service: IBinder?
+            name: ComponentName,
+            service: IBinder
         ) {
             val binder = service as JetWatchForegroundService.StopwatchBinder
             stopwatchService = binder.getService()
             isBound = true
         }
 
-        override fun onServiceDisconnected(name: ComponentName?) {
+        override fun onServiceDisconnected(name: ComponentName) {
             isBound = false
         }
     }
@@ -73,11 +80,20 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
-                        checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
-                        JetWatch(isBound)
-                    } else {
-                        PermissionHandler(windowSize)
+                    if(isBound){
+                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
+                            checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+                            JetWatch(
+                                stopwatchService = stopwatchService
+                            )
+                        } else {
+                            PermissionHandler(
+                                windowSize,
+                                stopwatchService
+                            )
+                        }
+                    }  else {
+                        Loading()
                     }
                 }
             }
@@ -90,3 +106,15 @@ class MainActivity : ComponentActivity() {
         isBound = false
     }
 }
+
+@Composable
+fun Loading(){
+    Column (
+        Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
+        Text("Loading ...")
+    }
+}
+

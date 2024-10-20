@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.bitmavrick.jet_watch.service.JetWatchForegroundService
 import com.bitmavrick.jet_watch.ui.home.HomeScreen
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
@@ -30,7 +31,8 @@ import com.google.accompanist.permissions.rememberPermissionState
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun PermissionHandler(
-    windowSize: WindowSizeClass
+    windowSize: WindowSizeClass,
+    stopwatchService : JetWatchForegroundService
 ){
     val context = LocalContext.current
     val notificationPermissionState = rememberPermissionState(permission = Manifest.permission.POST_NOTIFICATIONS)
@@ -59,7 +61,7 @@ fun PermissionHandler(
     ) {
         when(val status = notificationPermissionState.status){
             is PermissionStatus.Granted -> {
-                HomeScreen()
+                HomeScreen(stopwatchService)
             }
 
             is PermissionStatus.Denied -> {
