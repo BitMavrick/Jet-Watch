@@ -12,10 +12,14 @@ fun JetWatch(
     val hours by stopwatchService.hours
     val minutes by stopwatchService.minutes
     val seconds by stopwatchService.seconds
+    val currentState by stopwatchService.currentState
+
+
 
     HomeScreen(
         hours = hours,
         minutes = minutes,
-        seconds = seconds
+        seconds = seconds,
+        currentState = currentState
     )
 }
