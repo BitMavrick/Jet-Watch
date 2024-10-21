@@ -12,9 +12,6 @@ fun JetWatch(
     stopwatchService : JetWatchForegroundService,
     homeViewModel: HomeViewModel = viewModel()
 ) {
-
-    //private val homeViewModel: HomeViewModel by viewModels()
-
     val hours by stopwatchService.hours
     val minutes by stopwatchService.minutes
     val seconds by stopwatchService.seconds
@@ -24,6 +21,7 @@ fun JetWatch(
         hours = hours,
         minutes = minutes,
         seconds = seconds,
-        currentState = currentState
+        currentState = currentState,
+        homeOnEvent = homeViewModel::onEvent
     )
 }

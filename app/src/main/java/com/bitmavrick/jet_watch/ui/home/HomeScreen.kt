@@ -11,7 +11,8 @@ fun HomeScreen(
     hours : String,
     minutes : String,
     seconds : String,
-    currentState : StopwatchState
+    currentState : StopwatchState,
+    homeOnEvent: (HomeUiEvent) -> Unit
 ){
     Scaffold(
         content = { innerPadding ->
@@ -20,7 +21,8 @@ fun HomeScreen(
                 hours,
                 minutes,
                 seconds,
-                currentState
+                currentState,
+                homeOnEvent
             )
         }
     )
@@ -34,7 +36,8 @@ fun HomeScreenPreview(){
             hours = "00",
             minutes = "00",
             seconds = "00",
-            StopwatchState.Idle
+            StopwatchState.Idle,
+            {}
         )
     }
 }

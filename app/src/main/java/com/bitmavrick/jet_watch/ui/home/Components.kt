@@ -17,7 +17,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import com.bitmavrick.jet_watch.service.ServiceHelper
 import com.bitmavrick.jet_watch.service.StopwatchState
 import com.bitmavrick.jet_watch.ui.theme.JetWatchTheme
 import com.bitmavrick.jet_watch.util.Constants.ACTION_SERVICE_CANCEL
@@ -30,7 +29,8 @@ fun HomeContent(
     hours : String,
     minutes : String,
     seconds : String,
-    currentState : StopwatchState
+    currentState : StopwatchState,
+    homeOnEvent: (HomeUiEvent) -> Unit
 ){
     val context = LocalContext.current
 
@@ -52,18 +52,15 @@ fun HomeContent(
         ){
             Button(
                 onClick = {
-                    ServiceHelper.triggerForegroundService(
-                        context = context,
-                        action = if (currentState == StopwatchState.Started){
-                                ACTION_SERVICE_STOP
-                            }else{
-                                ACTION_SERVICE_START
-                            }
-                    )
+                    if(currentState == StopwatchState.Started){
+                        homeOnEvent(HomeUiEvent.TriggerForegroundService(context, ACTION_SERVICE_STOP))
+                    }else {
+                        homeOnEvent(HomeUiEvent.TriggerForegroundService(context, ACTION_SERVICE_START))
+                    }
                 }
             ) {
                 if (currentState == StopwatchState.Started){
-                    Text(text = "Resume")
+                    Text(text = "Stop")
                 }else{
                     Text(text = "Start")
                 }
@@ -71,10 +68,7 @@ fun HomeContent(
 
             OutlinedButton(
                 onClick = {
-                    ServiceHelper.triggerForegroundService(
-                        context = context,
-                        action = ACTION_SERVICE_CANCEL
-                    )
+                    homeOnEvent(HomeUiEvent.TriggerForegroundService(context, ACTION_SERVICE_CANCEL))
                 },
                 enabled = seconds != "00" && currentState != StopwatchState.Started
             ) {
@@ -94,6 +88,6 @@ fun HomeContentPreview(){
             "00",
             "00",
             StopwatchState.Idle
-        )
+        ) {}
     }
 }
