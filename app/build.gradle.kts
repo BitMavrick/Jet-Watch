@@ -62,4 +62,5 @@ dependencies {
     kapt(libs.hilt.android.compiler)
     implementation(libs.androidx.material.icon.extended)
     implementation(libs.androidx.compose.window)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
 }
