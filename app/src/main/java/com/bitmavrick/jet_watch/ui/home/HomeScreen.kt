@@ -3,7 +3,6 @@ package com.bitmavrick.jet_watch.ui.home
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.bitmavrick.jet_watch.service.StopwatchState
 import com.bitmavrick.jet_watch.ui.theme.JetWatchTheme
 
 @Composable

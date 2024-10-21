@@ -9,6 +9,7 @@ import android.os.Binder
 import android.os.Build
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.app.NotificationCompat
+import com.bitmavrick.jet_watch.ui.home.StopwatchState
 import com.bitmavrick.jet_watch.util.Constants.ACTION_SERVICE_CANCEL
 import com.bitmavrick.jet_watch.util.Constants.ACTION_SERVICE_START
 import com.bitmavrick.jet_watch.util.Constants.ACTION_SERVICE_STOP
@@ -196,9 +197,3 @@ class JetWatchForegroundService : Service(){
     }
 }
 
-enum class StopwatchState {
-    Idle,
-    Started,
-    Stopped,
-    Canceled
-}
